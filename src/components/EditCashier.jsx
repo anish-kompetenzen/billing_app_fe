@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl } from 'react-bootstrap'
+import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl } from 'react-bootstrap';
 
-const RegisterPage = () => {
-
+const EditCashier = () => {
     const [userDetails, setUserDetails] = useState({
         userName: "",
         userEmail: "",
@@ -14,27 +13,26 @@ const RegisterPage = () => {
         // form is prevented from submitting the data
         console.log(userDetails);
     }
-
     return (
-        <div className='container w-50 mt-5 pt-5'>
+        <div className='container mt-5'>
             <Card>
                 <CardHeader>
-                    <h1>Register Page</h1>
+                    <h3>Edit Cashier Details</h3>
                 </CardHeader>
                 <Form onSubmit={handleSubmit}>
                     <CardBody>
-                        <FormControl type="text" className='mb-1' name='userName'
+                        <FormControl type='text' required name='userName'
                             onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
-                            required placeholder='Enter your name' />
-                        <FormControl type="email" className='mb-1' name='userEmail'
+                            placeholder='Enter your name' className='mb-1' />
+                        <FormControl type='email' readOnly className='mb-1' name='userEmail'
                             onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
-                            required placeholder='Enter your email something@example.com' />
-                        <FormControl type="password" required name='userPass'
+                            value={"someone@example.com"} />
+                        <FormControl type='password' required name='userPass'
                             onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
-                            placeholder='Enter your password' />
+                            placeholder='Enter your password' className='mb-1' />
                     </CardBody>
                     <CardFooter>
-                        <Button type='submit'>Register</Button>
+                        <Button variant='success'>Save Details</Button>
                     </CardFooter>
                 </Form>
             </Card>
@@ -42,4 +40,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage
+export default EditCashier;
