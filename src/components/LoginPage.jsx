@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl } from 'react-bootstrap'
 import Service from './Service';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
 
@@ -9,10 +10,19 @@ const LoginPage = () => {
         cashierPassword: ""
     });
 
+    const navigate = useNavigate();
+
     async function handleSubmit(event) {
         event.preventDefault();
         // form is prevented from submitting the data
-        await Service.loginCashier(cashierDetails);
+        const response = await Service.loginCashier(cashierDetails);
+        if (cashierDetails.cashierEmail === response.data.cashierEmail) {
+            navigate("/h", {
+                state: {
+                    cashierDetails: response.data
+                }
+            });
+        }
     }
 
     return (
@@ -32,8 +42,9 @@ const LoginPage = () => {
                             onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             placeholder='Enter your password' />
                     </CardBody>
-                    <CardFooter>
+                    <CardFooter className='d-flex justify-content-between align-items-center'>
                         <Button variant='success' type="submit">Login</Button>
+                        <Link to={"/r"}>Register as Cashier</Link>
                     </CardFooter>
                 </Form>
             </Card>

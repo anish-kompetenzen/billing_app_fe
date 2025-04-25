@@ -5,7 +5,7 @@ import Header from './components/Header'
 import RegisterPage from './components/RegisterPage'
 import ViewProducts from './components/ViewProducts'
 import EditCashier from './components/EditCashier'
-import AddProducts from './components/AddBooks'
+import AddProducts from './components/AddProducts'
 
 function App() {
   return (

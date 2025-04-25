@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl } from 'react-bootstrap'
+import Service from './Service';
 
 const RegisterPage = () => {
 
-    const [userDetails, setUserDetails] = useState({
-        userName: "",
-        userEmail: "",
-        userPass: ""
+    const [cashierDetails, setCashierDetails] = useState({
+        cashierName: "",
+        cashierEmail: "",
+        cashierPassword: ""
     });
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         // form is prevented from submitting the data
-        console.log(userDetails);
+        const response = await Service.registerCashier(cashierDetails);
+        if (response.status === 201) {
+            alert("Registration successful, You can login now!");
+        }
     }
 
     return (
@@ -23,14 +27,14 @@ const RegisterPage = () => {
                 </CardHeader>
                 <Form onSubmit={handleSubmit}>
                     <CardBody>
-                        <FormControl type="text" className='mb-1' name='userName'
-                            onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
+                        <FormControl type="text" className='mb-1' name='cashierName'
+                            onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             required placeholder='Enter your name' />
-                        <FormControl type="email" className='mb-1' name='userEmail'
-                            onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
+                        <FormControl type="email" className='mb-1' name='cashierEmail'
+                            onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             required placeholder='Enter your email something@example.com' />
-                        <FormControl type="password" required name='userPass'
-                            onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
+                        <FormControl type="password" required name='cashierPassword'
+                            onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             placeholder='Enter your password' />
                     </CardBody>
                     <CardFooter>
