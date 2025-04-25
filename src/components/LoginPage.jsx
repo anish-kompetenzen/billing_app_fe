@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormControl } from 'react-bootstrap'
+import Service from './Service';
 
 const LoginPage = () => {
 
-    const [userDetails, setUserDetails] = useState({
-        userEmail: "",
-        userPass: ""
+    const [cashierDetails, setCashierDetails] = useState({
+        cashierEmail: "",
+        cashierPassword: ""
     });
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         // form is prevented from submitting the data
-        console.log(userDetails);
+        await Service.loginCashier(cashierDetails);
     }
 
     return (
@@ -23,12 +24,12 @@ const LoginPage = () => {
                 <Form onSubmit={handleSubmit}>
                     <CardBody>
                         <FormControl type="email" className='mb-1'
-                            name='userEmail'
-                            onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
+                            name='cashierEmail' value={cashierDetails.cashierEmail}
+                            onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             required placeholder='Enter your email something@example.com' />
                         <FormControl type="password" required
-                            name='userPass'
-                            onChange={(e) => { setUserDetails({ ...userDetails, [e.target.name]: e.target.value }) }}
+                            name='cashierPassword' value={cashierDetails.cashierPassword}
+                            onChange={(e) => { setCashierDetails({ ...cashierDetails, [e.target.name]: e.target.value }) }}
                             placeholder='Enter your password' />
                     </CardBody>
                     <CardFooter>
