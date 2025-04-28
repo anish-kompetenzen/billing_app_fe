@@ -6,6 +6,7 @@ import RegisterPage from './components/RegisterPage'
 import ViewProducts from './components/ViewProducts'
 import EditCashier from './components/EditCashier'
 import AddProducts from './components/AddProducts'
+import BillingPage from './components/BillingPage'
 
 function App() {
   return (
@@ -14,11 +15,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/r" element={<RegisterPage />} />
-          <Route path="/h" element={<HomePage />} />
           <Route path="/a" element={<AddProducts />} />
-          <Route path="/v" element={<ViewProducts />} />
+          <Route path="/b" element={<BillingPage />} />
           <Route path="/e" element={<EditCashier />} />
+          <Route path="/h" element={<HomePage />} />
+          <Route path="/v" element={<ViewProducts />} />
+          <Route path="/r" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
     </>

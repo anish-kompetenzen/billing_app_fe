@@ -34,6 +34,13 @@ const HomePage = () => {
                             }
                         }
                     )}>View/Edit Products</Button>
+                    <Button className='btn btn-info' onClick={() => navigate("/b"
+                        , {
+                            state: {
+                                cashierDetails: location?.state?.cashierDetails
+                            }
+                        }
+                    )}>Billing</Button>
                     <Link className='btn btn-danger' to="/">Logout</Link>
                 </Container>
             </div>

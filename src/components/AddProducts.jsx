@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormControl, FormLabel, FormSelect } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom';
+import Service from './Service';
 
 const AddProducts = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
     const [product, setProduct] = useState({
-        name: '',
-        image: '',
-        manufacturer: '',
-        mfgDate: '',
-        expDate: '',
-        category: '',
-        price: '',
-        quantity: ''
+        productName: '',
+        productImage: '',
+        productManufacturer: '',
+        productManDate: '',
+        productExpDate: '',
+        productCategory: '',
+        productPrice: '',
+        productQuantity: ''
     });
 
     const handleChange = (e) => {
@@ -25,9 +26,22 @@ const AddProducts = () => {
         }));
     };
 
-    function addProducts(event) {
+    async function addProducts(event) {
         event.preventDefault();
-        console.log(product);
+        const response = await Service.addProduct(product);
+        if (response.status === 201) {
+            alert("Product added succesfully!");
+            setProduct({
+                productName: '',
+                productImage: '',
+                productManufacturer: '',    
+                productManDate: '',
+                productExpDate: '',
+                productCategory: '',
+                productPrice: '',
+                productQuantity: ''
+            });
+        }
     }
 
     return (
@@ -49,9 +63,9 @@ const AddProducts = () => {
                                 <FormControl
                                     type='text'
                                     required
-                                    name='name'
+                                    name='productName'
                                     placeholder='Enter product name'
-                                    value={product.name}
+                                    value={product.productName}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -60,9 +74,9 @@ const AddProducts = () => {
                                 <FormControl
                                     type='url'
                                     required
-                                    name='image'
+                                    name='productImage'
                                     placeholder='Enter product image'
-                                    value={product.image}
+                                    value={product.productImage}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -71,9 +85,9 @@ const AddProducts = () => {
                                 <FormControl
                                     type='text'
                                     required
-                                    name='manufacturer'
+                                    name='productManufacturer'
                                     placeholder='Enter product manufacturer name'
-                                    value={product.manufacturer}
+                                    value={product.productManufacturer}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -82,8 +96,8 @@ const AddProducts = () => {
                                 <FormControl
                                     type='date'
                                     required
-                                    name='mfgDate'
-                                    value={product.mfgDate}
+                                    name='productManDate'
+                                    value={product.productManDate}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -92,8 +106,8 @@ const AddProducts = () => {
                                 <FormControl
                                     type='date'
                                     required
-                                    name='expDate'
-                                    value={product.expDate}
+                                    name='productExpDate'
+                                    value={product.productExpDate}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -101,8 +115,8 @@ const AddProducts = () => {
                                 <FormLabel style={{ width: "350px" }}>Product category : </FormLabel>
                                 <FormSelect
                                     required
-                                    name='category'
-                                    value={product.category}
+                                    name='productCategory'
+                                    value={product.productCategory}
                                     onChange={handleChange}
                                 >
                                     <option value=''>-- Select Category --</option>
@@ -120,9 +134,9 @@ const AddProducts = () => {
                                 <FormControl
                                     type='number'
                                     required
-                                    name='price'
+                                    name='productPrice'
                                     placeholder='Enter product price'
-                                    value={product.price}
+                                    value={product.productPrice}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -131,9 +145,9 @@ const AddProducts = () => {
                                 <FormControl
                                     type='number'
                                     required
-                                    name='quantity'
+                                    name='productQuantity'
                                     placeholder='Enter product quantity'
-                                    value={product.quantity}
+                                    value={product.productQuantity}
                                     onChange={handleChange}
                                 />
                             </div>
