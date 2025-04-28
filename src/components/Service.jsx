@@ -30,6 +30,14 @@ class Service {
     async decreaseQuantity(id) {
         return await axios.put(baseURL + "product/dec/" + id);
     }
+
+    async deleteProduct(id) {
+        return await axios.delete(baseURL + "product/" + id);
+    }
+
+    async updateProduct(pdt) {
+        return await axios.put(baseURL + "product", pdt);
+    }
 }
 
 export default new Service();
