@@ -38,6 +38,10 @@ class Service {
     async updateProduct(pdt) {
         return await axios.put(baseURL + "product", pdt);
     }
+
+    async generateBill(dto, name) {
+        return axios.post(baseURL + "cashier/b?name=" + name, dto);
+    }
 }
 
 export default new Service();

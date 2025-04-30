@@ -34,7 +34,7 @@ const AddProducts = () => {
             setProduct({
                 productName: '',
                 productImage: '',
-                productManufacturer: '',    
+                productManufacturer: '',
                 productManDate: '',
                 productExpDate: '',
                 productCategory: '',
@@ -56,7 +56,7 @@ const AddProducts = () => {
                     <CardHeader>
                         <h1>Add Products Here</h1>
                     </CardHeader>
-                    <Form onSubmit={addProducts}>
+                    <Form onSubmit={addProducts} autoComplete='on'>
                         <CardBody>
                             <div className='d-flex align-items-center mb-1'>
                                 <FormLabel style={{ width: "350px" }}>Product name : </FormLabel>
@@ -67,6 +67,7 @@ const AddProducts = () => {
                                     placeholder='Enter product name'
                                     value={product.productName}
                                     onChange={handleChange}
+                                    autoFocus
                                 />
                             </div>
                             <div className='d-flex align-items-center mb-1'>
