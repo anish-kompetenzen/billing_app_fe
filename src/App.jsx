@@ -7,6 +7,8 @@ import ViewProducts from './components/ViewProducts'
 import EditCashier from './components/EditCashier'
 import AddProducts from './components/AddProducts'
 import BillingPage from './components/BillingPage'
+import ViewBills from './components/ViewBills'
+import ViewOneBill from './components/ViewOneBill'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/e" element={<EditCashier />} />
           <Route path="/h" element={<HomePage />} />
           <Route path="/v" element={<ViewProducts />} />
+          <Route path="/vb" element={<ViewBills />} />
+          <Route path="/v1b" element={<ViewOneBill />} />
           <Route path="/r" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>

@@ -20,7 +20,7 @@ const BillingPage = () => {
     const timeWithAMPM = dateTime.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true, // Ensures AM/PM format
+        hour12: true,
     });
 
     const [products, setProducts] = useState([]);
@@ -66,9 +66,20 @@ const BillingPage = () => {
         setCheckoutProducts(updatedCheckoutProducts);
     }
 
-    async function handleViewBill() {
-        const response = await Service.generateBill(checkoutProducts, cashierDetails.cashierName);
-        console.log(response.data);
+    async function handleGenerateBill() {
+        if (checkoutProducts.length > 0) {
+            const response = await Service.generateBill(checkoutProducts, cashierDetails.cashierName);
+            if (response.data === "success") {
+                alert("Bill has been generated!!");
+                navigate("/h", {
+                    state: {
+                        cashierDetails: cashierDetails
+                    }
+                });
+            }
+        } else {
+            alert("Add minimum 1 item to checkout!");
+        }
     }
 
     function handleChangeQuantity(e, id, cpdt) {
@@ -106,68 +117,83 @@ const BillingPage = () => {
     }
 
     return (
-        <div className='card m-2'>
-            <div className='card-header d-flex justify-content-between align-items-end'>
-                <h6>Date : {dateTime.toLocaleDateString()}</h6>
-                <img src='https://marhaba.qa/wp-content/uploads/2020/11/logo-lulu-safely.png' style={{ borderRadius: "15px", width: "20vw" }} />
-                <div>
-                    <h6>Cashier : {cashierDetails.cashierName}</h6>
-                    <h6>Time : {timeWithAMPM}</h6>
+        <>
+            <div className='card m-2'>
+                <div className='card-header d-flex justify-content-between align-items-end'>
+                    <div>
+                        <Button className='bi bi-arrow-left mb-3' onClick={() => navigate("/h", {
+                            state: {
+                                cashierDetails: cashierDetails
+                            }
+                        })}></Button>
+                        <h6>Date : {dateTime.toLocaleDateString()}</h6>
+                    </div>
+                    <img src='https://marhaba.qa/wp-content/uploads/2020/11/logo-lulu-safely.png' style={{ borderRadius: "15px", width: "20vw" }} />
+                    <div>
+                        <h6 className='mb-4'>Cashier : {cashierDetails.cashierName}</h6>
+                        <h6>Time : {timeWithAMPM}</h6>
+                    </div>
+                </div>
+                <div className='card-body'>
+                    <div className='d-flex d-flex justify-content-between align-items-center'>
+                        <h2>Products</h2>
+                        <h5>Add new product <Button variant='info' className='bi bi-plus-lg' onClick={handleAddProduct}></Button></h5>
+                    </div>
+                    <Table striped bordered hover responsive>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th style={{ width: "240px" }}>Manufacturer</th>
+                                <th style={{ width: "140px" }}>Price per item</th>
+                                <th style={{ width: "140px" }}>Quantity</th>
+                                <th style={{ width: "140px" }}>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {checkoutProducts.map((cpdt, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>
+                                            <FormSelect onChange={(e) => handleSelectedPdt(e, index)}>
+                                                <option>Choose a product to proceed</option>
+                                                {products.map((pdt, indexPdt) => {
+                                                    if (pdt.productQuantity > 0) {
+                                                        return (
+                                                            <option key={indexPdt} value={pdt.productId}>{pdt.productName}</option>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <option key={indexPdt} disabled value={pdt.productId}>{pdt.productName}{" : Stock Unavailable - Restocking Soon!"}</option>
+                                                        )
+                                                    }
+                                                })}
+                                            </FormSelect>
+                                        </td>
+                                        <td>
+                                            <FormControl value={cpdt.productManufacturer} readOnly placeholder='Choose a product to continue' />
+                                        </td>
+                                        <td>
+                                            <FormControl value={"₹" + cpdt.productPrice + "/-"} readOnly placeholder='Choose a product to continue' />
+                                        </td>
+                                        <td>
+                                            <FormControl value={cpdt.productPurchaseQty} onChange={(e) => handleChangeQuantity(e, index, cpdt)} type='number' placeholder='Choose a product to continue' />
+                                        </td>
+                                        <td>
+                                            <FormControl value={"₹" + (cpdt.productPrice * cpdt.productPurchaseQty) + "/-"} readOnly placeholder='Choose a product to continue' />
+                                        </td>
+                                        <td><Button onClick={handleDelete} className='btn btn-danger bi bi-trash'></Button></td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                    <Button onClick={handleGenerateBill} className='bi-cash'>{" "}<span className='bi-receipt'>{" "}</span>Generate Bill</Button>
                 </div>
             </div>
-            <div className='card-body'>
-                <div className='d-flex d-flex justify-content-between align-items-center'>
-                    <h2>Products</h2>
-                    <h5>Add new product <Button variant='info' className='bi bi-plus-lg' onClick={handleAddProduct}></Button></h5>
-                </div>
-                <Table striped bordered hover responsive>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Manufacturer</th>
-                            <th>Price per item</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {checkoutProducts.map((cpdt, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                        <FormSelect onChange={(e) => handleSelectedPdt(e, index)}>
-                                            <option>Choose a product to proceed</option>
-                                            {products.map((pdt, indexPdt) => {
-                                                return (
-                                                    <option key={indexPdt} value={pdt.productId}>{pdt.productName}</option>
-                                                )
-                                            })}
-                                        </FormSelect>
-                                    </td>
-                                    <td>
-                                        <FormControl value={cpdt.productManufacturer} readOnly placeholder='Choose a product to continue' />
-                                    </td>
-                                    <td>
-                                        <FormControl value={"₹" + cpdt.productPrice + "/-"} readOnly placeholder='Choose a product to continue' />
-                                    </td>
-                                    <td>
-                                        <FormControl value={cpdt.productPurchaseQty} onChange={(e) => handleChangeQuantity(e, index, cpdt)} type='number' placeholder='Choose a product to continue' />
-                                    </td>
-                                    <td>
-                                        <FormControl value={cpdt.productPrice * cpdt.productPurchaseQty} readOnly placeholder='Choose a product to continue' />
-                                    </td>
-                                    <td><Button onClick={handleDelete} className='btn btn-danger bi bi-trash'></Button></td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
-                <Button onClick={handleViewBill} className='bi-cash'>{" "}<span className='bi-receipt'>{" "}</span>Generate Bill</Button>
-            </div>
-        </div>
+        </>
     )
 }
 

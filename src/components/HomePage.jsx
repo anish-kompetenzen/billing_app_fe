@@ -11,15 +11,17 @@ const HomePage = () => {
             </>
             :
             <div className='container'>
-                <h2 className='mt-5'>Hi {location?.state?.cashierDetails?.cashierName}, Welcome to the BillingSuite</h2>
-                <Container style={{ height: "65vh" }} className='d-flex align-items-center justify-content-between'>
-                    <Button className='btn btn-warning' onClick={() => navigate("/e"
+                <div className='d-flex align-items-center justify-content-between mt-5'>
+                    <h2>Hi {location?.state?.cashierDetails?.cashierName}, Welcome to the BillingSuite</h2>
+                    <Button className='bi bi-person-circle' onClick={() => navigate("/e"
                         , {
                             state: {
                                 cashierDetails: location?.state?.cashierDetails
                             }
                         }
-                    )}>Edit Cashier Details</Button>
+                    )} style={{ borderRadius: "50%" }}></Button>
+                </div>
+                <Container style={{ height: "65vh" }} className='d-flex align-items-center justify-content-between'>
                     <Button className='btn btn-success' onClick={() => navigate("/a"
                         , {
                             state: {
@@ -41,6 +43,13 @@ const HomePage = () => {
                             }
                         }
                     )}>Billing</Button>
+                    <Button className='btn btn-warning' onClick={() => navigate("/vb"
+                        , {
+                            state: {
+                                cashierDetails: location?.state?.cashierDetails
+                            }
+                        }
+                    )}>View Bills</Button>
                     <Link className='btn btn-danger' to="/">Logout</Link>
                 </Container>
             </div>

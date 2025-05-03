@@ -42,6 +42,10 @@ class Service {
     async generateBill(dto, name) {
         return axios.post(baseURL + "cashier/b?name=" + name, dto);
     }
+
+    async viewAllBills() {
+        return axios.get(baseURL + "cashier/vb");
+    }
 }
 
 export default new Service();
