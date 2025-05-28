@@ -40,8 +40,8 @@ const ViewProducts = () => {
         if (res) {
             await Service.deleteProduct(id);
             viewProducts();
+            alert("Product deleted successfully!");
         }
-        alert("Product deleted successfully!");
     }
 
     function handleEdit(pdt) {
